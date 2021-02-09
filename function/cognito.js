@@ -1,11 +1,11 @@
-// 걍 express 하나 파서 해야겠누
+require('dotenv').config();
 
 var AmazonCognitoIdentity = require('amazon-cognito-identity-js-node');
 var CognitoUserPool = AmazonCognitoIdentity.CognitoUserPool;
 var CognitoUserAttribute = AmazonCognitoIdentity.CognitoUserAttribute;
 // 이 두 개는 환경 변수에 넣기.
-const UserPoolId = "ap-northeast-2_eFTNxY2yR";
-const ClientId = "7hp6e0edi1u5e05b3093ij1gg4"
+const UserPoolId = process.env.UserPoolId;
+const ClientId = process.env.ClientId;
 const poolData = {
     UserPoolId,
     ClientId
