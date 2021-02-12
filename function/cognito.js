@@ -24,6 +24,8 @@ const normalUserPool = new CognitoUserPool(normalPoolData);
 
 // 로그인
 module.exports.login = async function login(username, password, userLevel, res) {
+    console.log("름름이름 : "+username);
+    console.log("스스패스 : "+password);
     let userPool;
     if (userLevel === "admin") { userPool = adminUserPool; }
     else if (userLevel === "normal") { userPool = normalUserPool; }
