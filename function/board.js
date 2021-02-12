@@ -1,4 +1,3 @@
-// const request = require('request-promise');
 const axios = require("axios");
 const url = "https://pg1z261db3.execute-api.ap-northeast-2.amazonaws.com/himusic/board";
 

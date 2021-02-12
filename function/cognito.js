@@ -1,4 +1,5 @@
 require('dotenv').config();
+const axios = require("axios");
 
 var AmazonCognitoIdentity = require('amazon-cognito-identity-js-node');
 var CognitoUserPool = AmazonCognitoIdentity.CognitoUserPool;
@@ -41,12 +42,13 @@ module.exports.login = async function login(username, password, userLevel, res) 
         await cognitoUser.authenticateUser(authenticationDetails, {
             onSuccess: async function (result) {
 
-                await cognitoUser.getUserAttributes((err,data) => {
-                    if(err){ res.send(err); } 
-                    else if(data){
+                await cognitoUser.getUserAttributes((err, data) => {
+                    if (err) { res.send(err); }
+                    else if (data) {
                         result.nickname = data[2].Name.Value;
                         res.send(result);
-                    }});
+                    }
+                });
 
                 // var accessToken = result.getAccessToken().getJwtToken();
             },
@@ -59,32 +61,48 @@ module.exports.login = async function login(username, password, userLevel, res) 
     }
 }
 
+// TODO: 회원 중복을 막기 위한 코딩 - username 변경하거나 회원 탈퇴 시 dynamodb에서 처리하기
 // 회원 가입
 module.exports.singup = async function singup(username, password, email, nickname, userLevel, res) {
-    let userPool;
-    if (userLevel === "admin") { userPool = adminUserPool; }
-    else if (userLevel === "normal") { userPool = normalUserPool; }
-    const userData = {
-        Username: username,
-        Pool: userPool
-    }
-    const attributeList = [];
-    const attributeEmail = new CognitoUserAttribute("email", email);
-    const attributeNickname = new CognitoUserAttribute("nickname", nickname);
-    attributeList.push(attributeEmail);
-    attributeList.push(attributeNickname);
-    try {
-        await userPool.signUp(username, password, attributeList, null, function (err, result) {
-            if (err) {
-                res.send(err);
-            } else {
-                const resultCognitoUser = result.user;
-                res.send(resultCognitoUser.getUsername());
+    const url = "https://pg1z261db3.execute-api.ap-northeast-2.amazonaws.com/himusic/users";
+    const body = {
+        "body": {
+            "tableName": "himusic_username",
+            "username": username
+        }
+    };
+
+    await axios.post(url, body)
+        .then( async(result) => {
+            if (result.data.statusCode === 400) {
+                result.data.usernameOverlap = true;
+                res.send(result.data);
             }
-        });
-    } catch (err) {
-        res.send({ success: "failure", error: err });
-    }
+            else{
+                let userPool;
+                if (userLevel === "admin") { userPool = adminUserPool; }
+                else if (userLevel === "normal") { userPool = normalUserPool; }
+
+                const attributeList = [];
+                const attributeEmail = new CognitoUserAttribute("email", email);
+                const attributeNickname = new CognitoUserAttribute("nickname", nickname);
+                attributeList.push(attributeEmail);
+                attributeList.push(attributeNickname);
+                try {
+                    await userPool.signUp(username, password, attributeList, null, function (err, result) {
+                        if (err) {
+                            res.send(err);
+                        } else {
+                            const resultCognitoUser = result.user;
+                            res.send(resultCognitoUser.getUsername());
+                        }
+                    });
+                } catch (err) {
+                    res.send({ success: "failure", error: err });
+                }
+            }
+        })
+        .catch(error => res.send(error));
 }
 
 
@@ -141,11 +159,3 @@ const userData = {
     Pool: userPool
 }
 const cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
-
-// const getAtt = async() => {await cognitoUser.getUserAttributes((err,data) => {
-// if(err) console.log("에러놈 :"+ err);
-// if(data) console.log(data);
-// } )
-// }
-
-// getAtt();
