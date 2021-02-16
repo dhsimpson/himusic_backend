@@ -15,7 +15,6 @@ module.exports.postBoard = async function postBoard(_body, res) {
             "date": _body.date
         }
     }
-    console.log("타이틀:"+_body.title);
     try{
         await axios.post(url, body)
         .then( data => res.send(data.data) )
