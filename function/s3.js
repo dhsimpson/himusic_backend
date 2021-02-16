@@ -25,19 +25,26 @@ const storage = multerS3({
     }
   })
 
+// S3에 파일들 업로드
 module.exports.upload = multer({ storage: storage });//.single("file");
 
+// S3로 부터 파일들 가지고 오기
 module.exports.getData = async(key, res) => {
     const getParams = {
         Bucket: 'himusic',
         Key: key
     }
-    
-    s3.getObject(getParams, (err, data) =>{
+    console.log("key: "+ key);
+    await s3.getObject(getParams, (err, data) =>{
         // Handle any error and exit
-        if (err)console.log(data);
+        if (err){
+            console.log(err);
+            res.send(err);
+        }
         else{
-            console.log(data.body);
+            // const content = data.Body.toString(); 이건 front에서 해줘야 함..??? 만약 file, video도 buffer로 오면 ??
+            // item.content = content;
+            res.send(data.Body);
         }
     });
 }
