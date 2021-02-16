@@ -14,28 +14,7 @@ router.post('/upload', s3.upload.fields([{name:'content'},{name:'file'},{name:'v
         success:1,
         keys: req.files // front에서 다시 한 번 서버에 전달하고 서버가 dynamo에 전달
     });
-    // s3.upload(req, res, function(err) {
-    //     if (err instanceof multer.MulterError) {
-    //       return next(err);
-    //     } else if (err) {
-    //       return next(err);
-    //     }
-    //     // console.log('원본파일명 : ' + req.file.originalname)
-    //     // console.log('저장파일명 : ' + req.file.filename)
-    //     // console.log('크기 : ' + req.file.size)
-    //     // console.log('경로 : ' + req.file.location) 
-    //     return res.json({success:1});
-    //   });
 })
-
-// 게시글 한 개 읽어오기
-router.get('/readPost', async(req,res) => {
-    await board.readPost(req.query, res);
-} );
-// 데이터 (content, file, video)
-router.get('/readData', async(req,res) => {
-    await board.readData(req.query, res);
-} );
 
 // 게시판
 router.post('/post', async (req,res) => {
