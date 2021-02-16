@@ -27,3 +27,17 @@ const storage = multerS3({
 
 module.exports.upload = multer({ storage: storage });//.single("file");
 
+module.exports.getData = async(key, res) => {
+    const getParams = {
+        Bucket: 'himusic',
+        Key: key
+    }
+    
+    s3.getObject(getParams, (err, data) =>{
+        // Handle any error and exit
+        if (err)console.log(data);
+        else{
+            console.log(data.body);
+        }
+    });
+}

@@ -6,27 +6,19 @@ const url = "https://pg1z261db3.execute-api.ap-northeast-2.amazonaws.com/himusic
 // c.f. FE의 axios도 then.catch 로 처리해주기
 // 게시글 저장할 때 index 어떻게 할 지 고민해 보기.
 // Create
-module.exports.createBoard = async function createBoard(tableName, author, title, content, month, date, res) {
-
-    // number: count+1,
-    // author: body.author,
-    // title: body.title,
-    // content: body.content,
-    // imageUrl: "",
-    // month: body.month,
-    // date: body.date
-    //TODO : imageUrl 추가
+module.exports.postBoard = async function postBoard(body, res) {
     body = {
         "body": {
-            "tableName": tableName,
-            "author": author, 
-            "title": title,
-            "content": content,
-            "imageUrl": imageUrl,
-            "month": month,
-            "date": date
+            "tableName": "himusic_"+body.tableName,
+            "author": body.author, 
+            "title": body.title,
+            "keys": body.keys,
+            "year": body.year,
+            "month": body.month,
+            "date": body.date
         }
     }
+    console.log(body);
     try{
         await axios.post(url, body)
         .then( data => res.send(data.data) )

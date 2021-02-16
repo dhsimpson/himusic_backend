@@ -154,10 +154,10 @@ module.exports.resendCode = async function resendCode(username, userLevel, res) 
     }
 }
 
-let userPool = normalUserPool;
+// let userPool = normalUserPool;
 
-const userData = {
-    Username: "dongdong",
-    Pool: userPool
-}
-const cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
+// const userData = {
+//     Username: "dongdong",
+//     Pool: userPool
+// }
+// const cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
