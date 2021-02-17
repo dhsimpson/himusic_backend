@@ -34,11 +34,11 @@ module.exports.getData = async(key, res) => {
         Bucket: 'himusic',
         Key: key
     }
-    console.log("key: "+ key);
+    // console.log("key: "+ key);
     await s3.getObject(getParams, (err, data) =>{
         // Handle any error and exit
         if (err){
-            console.log(err);
+            // console.log(err);
             res.send(err);
         }
         else{

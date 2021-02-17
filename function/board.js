@@ -28,18 +28,11 @@ module.exports.postBoard = async function postBoard(_body, res) {
 // 스켈레톤만 짜놓은 것임
 // Read
 // 게시글 머릿부분만 리스트 가지고 오기
-module.exports.readBoard = async function readBoard(tableName, startIndex, queryAmount, res) {
-    // DB에서 startIndex 번 째 게시글 부터 queryAmount 개 만큼 가져오기
-    const body = {
-        "body": {
-            "tableName": tableName,
-            "startIndex": startIndex,
-            "queryAmount": queryAmount
-        }
-    }
+module.exports.readBoard = async function readBoard(query, res) {
+    const postQueryUrl = `${url}?tableName=himusic_${query.tableName}&currentPage=${query.currentPage}`
     try{
-        await axios.get(url, body)
-        .then( data => res.send(data.data) )
+        await axios.get(postQueryUrl)
+        .then( (data) => res.send(data.data.data.Items))
         .catch(error => res.send(error));
     }
     catch(err){

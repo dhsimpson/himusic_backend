@@ -21,9 +21,11 @@ router.post('/post', async (req,res) => {
     // const { tableName, author, title, keys, month, date } = req.body;
     await board.postBoard(req.body, res);
 });
-router.get('/read', async (req,res) => { // c.f. 닉네임도 할지?
-    const { tableName, startIndex, queryAmount } = req.body;
-    await board.readBoard(tableName, startIndex, queryAmount, res);
+// 게시판 리스트 가져옴
+router.get('/read', async (req,res) => {
+    await board.readBoard(req.query, res);
+    // const { tableName, startIndex, queryAmount } = req.body;
+    // await board.readBoard(tableName, startIndex, queryAmount, res);
 });
 router.put('/update', async (req,res) => {
     const { tableName, author, updateIndex, title, content } = req.body;
