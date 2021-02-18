@@ -16,16 +16,18 @@ router.post('/upload', s3.upload.fields([{name:'content'},{name:'file'},{name:'v
     });
 })
 
-// 게시판
+// 게시판 글 등록
 router.post('/post', async (req,res) => {
-    // const { tableName, author, title, keys, month, date } = req.body;
     await board.postBoard(req.body, res);
 });
+router.get('/scan', async(req,res) => {
+    await board.readRowKey(req.query, res);
+})
 // 게시판 리스트 가져옴
 router.get('/read', async (req,res) => {
+    console.log(req.query)
+    console.log(typeof req.query.startTimestamp)
     await board.readBoard(req.query, res);
-    // const { tableName, startIndex, queryAmount } = req.body;
-    // await board.readBoard(tableName, startIndex, queryAmount, res);
 });
 router.put('/update', async (req,res) => {
     const { tableName, author, updateIndex, title, content } = req.body;

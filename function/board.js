@@ -7,6 +7,7 @@ module.exports.postBoard = async function postBoard(_body, res) {
     const body = {
         "body": {
             "tableName": "himusic_"+_body.tableName,
+            "rowkey": _body.rowkey,
             "author": _body.author, 
             "title": _body.title,
             "keys": _body.keys,
@@ -25,11 +26,27 @@ module.exports.postBoard = async function postBoard(_body, res) {
     }
 }
 
-// 스켈레톤만 짜놓은 것임
-// Read
+// read
+// 게시글 key index들 가지고 오기
+module.exports.readRowKey = async function readRowKey(query, res) {
+    console.log("꾸리");
+    console.log(query);
+    const postQueryUrl = `${url}?tableName=himusic_${query.tableName}&getRowKey=${true}`;
+    try{
+        await axios.get(postQueryUrl)
+        .then( data =>res.send(data.data.data))
+        .catch(error => res.send(error));
+    }
+    catch(err){
+        res.send(err);
+    }
+}
 // 게시글 리스트 가지고 오기
 module.exports.readBoard = async function readBoard(query, res) {
-    const postQueryUrl = `${url}?tableName=himusic_${query.tableName}&currentPage=${query.currentPage}`
+    // console.log(query);
+    // "startTimestamp": 1613661360093,
+    // "endTimestamp": 1613661415652
+    const postQueryUrl = `${url}?tableName=himusic_${query.tableName}&startTimestamp=${query.startTimestamp}&endTimestamp=${query.endTimestamp}`;
     try{
         await axios.get(postQueryUrl)
         .then( data =>res.send(data.data.data))
@@ -40,6 +57,8 @@ module.exports.readBoard = async function readBoard(query, res) {
     }
 }
 
+// TODO: 게시판 U, D 는 나중에
+// 스켈레톤만 짜놓은 것임
 // Update
 module.exports.updateBoard = async function upadateBoard(tableName, author, updateIndex, title, content, res) {
     // DB에서 startIndex 번 째 게시글 부터 queryAmount 개 만큼 가져오기
