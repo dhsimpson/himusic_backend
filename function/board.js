@@ -27,12 +27,12 @@ module.exports.postBoard = async function postBoard(_body, res) {
 
 // 스켈레톤만 짜놓은 것임
 // Read
-// 게시글 머릿부분만 리스트 가지고 오기
+// 게시글 리스트 가지고 오기
 module.exports.readBoard = async function readBoard(query, res) {
     const postQueryUrl = `${url}?tableName=himusic_${query.tableName}&currentPage=${query.currentPage}`
     try{
         await axios.get(postQueryUrl)
-        .then( (data) => res.send(data.data.data.Items))
+        .then( data =>res.send(data.data.data))
         .catch(error => res.send(error));
     }
     catch(err){
