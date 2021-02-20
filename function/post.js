@@ -4,7 +4,7 @@ const url = "https://pg1z261db3.execute-api.ap-northeast-2.amazonaws.com/himusic
 
 // 게시글 한 개 읽어 오기
 module.exports.readPost = async function readPost(query, res){
-    const postQueryUrl = `${url}?tableName=${query.tableName}&rowkey=${query.rowkey}`
+    const postQueryUrl = `${url}?tableName=${query.tableName}&rowkey=${query.rowkey}`;
     try{
         await axios.get(postQueryUrl)
         .then( (data) => {

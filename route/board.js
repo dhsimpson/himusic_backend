@@ -9,7 +9,6 @@ const fs = require('fs');
 // 파일
 //s3.upload.single('file')
 router.post('/upload', s3.upload.fields([{name:'content'},{name:'file'},{name:'video'}]), async(req,res)=>{
-    console.log(req.files);
     res.send({
         success:1,
         keys: req.files // front에서 다시 한 번 서버에 전달하고 서버가 dynamo에 전달
@@ -25,8 +24,6 @@ router.get('/scan', async(req,res) => {
 })
 // 게시판 리스트 가져옴
 router.get('/read', async (req,res) => {
-    console.log(req.query)
-    console.log(typeof req.query.startTimestamp)
     await board.readBoard(req.query, res);
 });
 router.put('/update', async (req,res) => {

@@ -29,8 +29,6 @@ module.exports.postBoard = async function postBoard(_body, res) {
 // read
 // 게시글 key index들 가지고 오기
 module.exports.readRowKey = async function readRowKey(query, res) {
-    console.log("꾸리");
-    console.log(query);
     const postQueryUrl = `${url}?tableName=himusic_${query.tableName}&getRowKey=${true}`;
     try{
         await axios.get(postQueryUrl)
