@@ -1,6 +1,7 @@
 const axios = require("axios");
 const s3 = require('./s3');
-const url = "https://pg1z261db3.execute-api.ap-northeast-2.amazonaws.com/himusic/post"; // 게시글 하나에 대한 것
+require('dotenv').config();
+const url = `${process.env.AWS_DB_URL}/post` // "https://pg1z261db3.execute-api.ap-northeast-2.amazonaws.com/himusic/post"; // 게시글 하나에 대한 것
 
 // 게시글 한 개 읽어 오기
 module.exports.readPost = async function readPost(query, res){
