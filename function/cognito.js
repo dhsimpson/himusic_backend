@@ -24,8 +24,9 @@ const normalUserPool = new CognitoUserPool(normalPoolData);
 
 // 로그인
 module.exports.login = async function login(username, password, userLevel, res) {
-    // console.log("름름이름 : "+username);
-    // console.log("스스패스 : "+password);
+    console.log("름름이름 : "+username);
+    console.log("스스패스 : "+password);
+    console.log("계정레벨 : "+userLevel);
     let userPool;
     if (userLevel === "admin") { userPool = adminUserPool; }
     else if (userLevel === "normal") { userPool = normalUserPool; }
@@ -41,10 +42,10 @@ module.exports.login = async function login(username, password, userLevel, res) 
     };
     const authenticationDetails = new AmazonCognitoIdentity.AuthenticationDetails(authenticationData);
     try {
-        await cognitoUser.authenticateUser(authenticationDetails, {
+        cognitoUser.authenticateUser(authenticationDetails, {
             onSuccess: async function (result) {
 
-                await cognitoUser.getUserAttributes((err, data) => {
+                cognitoUser.getUserAttributes((err, data) => {
                     if (err) { res.send(err); }
                     else if (data) {
                         result.nickname = data[2].Name.Value;
