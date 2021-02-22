@@ -11,8 +11,6 @@ const adminPoolData = {
     UserPoolId: adminUserPoolId,
     ClientId: adminClientId
 }
-console.log("process.env.adminUserPoolId : "+process.env.adminUserPoolId);
-console.log("process.env.adminClientId : "+process.env.adminClientId);
 const adminUserPool = new CognitoUserPool(adminPoolData);
 
 // Normal 계정의 경우
