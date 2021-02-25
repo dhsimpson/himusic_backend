@@ -34,16 +34,12 @@ module.exports.getData = async(key, res) => {
         Bucket: 'himusic',
         Key: key
     }
-    // console.log("key: "+ key);
     await s3.getObject(getParams, (err, data) =>{
         // Handle any error and exit
         if (err){
-            // console.log(err);
             res.send(err);
         }
         else{
-            // const content = data.Body.toString(); 이건 front에서 해줘야 함..??? 만약 file, video도 buffer로 오면 ??
-            // item.content = content;
             res.send(data.Body);
         }
     });

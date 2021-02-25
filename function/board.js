@@ -10,12 +10,14 @@ module.exports.postBoard = async function postBoard(_body, res) {
             "rowkey": _body.rowkey,
             "author": _body.author, 
             "title": _body.title,
-            "keys": _body.keys,
+            "files": _body.files,
             "year": _body.year,
             "month": _body.month,
             "date": _body.date
         }
     }
+    console.log("bodybody");
+    console.log(body);
     try{
         await axios.post(url, body)
         .then( data => res.send(data.data) )

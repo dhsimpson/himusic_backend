@@ -11,7 +11,7 @@ const fs = require('fs');
 router.post('/upload', s3.upload.fields([{name:'content'},{name:'file'},{name:'video'}]), async(req,res)=>{
     res.send({
         success:1,
-        keys: req.files // front에서 다시 한 번 서버에 전달하고 서버가 dynamo에 전달
+        files: req.files // front에서 다시 한 번 서버에 전달하고 서버가 dynamo에 전달
     });
 })
 

@@ -49,8 +49,6 @@ module.exports.login = async function login(username, password, userLevel, res) 
                         res.send(result);
                     }
                 });
-
-                // var accessToken = result.getAccessToken().getJwtToken();
             },
             onFailure: async function (err) {
                 res.send(err);
