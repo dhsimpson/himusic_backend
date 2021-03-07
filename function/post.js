@@ -29,6 +29,7 @@ module.exports.updatePost = async function updatePost(_body,res) {
         }
     }
     if(_body.title){body.body.title = _body.title;}
+    if(_body.files){body.body.files = _body.files;}
 
     try{
         await axios.put(url, body)
