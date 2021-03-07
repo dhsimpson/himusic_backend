@@ -13,7 +13,8 @@ router.post('/upload', s3.upload.fields([{name:'content'},{name:'file'},{name:'v
         success:1,
         files: req.files // front에서 다시 한 번 서버에 전달하고 서버가 dynamo에 전달
     });
-})
+});
+
 
 // 게시판 글 등록
 router.post('/post', async (req,res) => {
@@ -26,13 +27,6 @@ router.get('/scan', async(req,res) => {
 router.get('/read', async (req,res) => {
     await board.readBoard(req.query, res);
 });
-router.put('/update', async (req,res) => {
-    const { tableName, author, updateIndex, title, content } = req.body;
-    await board.updateBoard(tableName, author, updateIndex, title, content, res);
-})
-router.delete('/delete', async (req,res) => {
-    const { tableName, author, deleteIndex } = req.body;
-    await board.deleteBoard(tableName, author, deleteIndex, res);
-})
+
 
 module.exports = router;

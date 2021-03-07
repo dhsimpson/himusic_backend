@@ -41,7 +41,6 @@ module.exports.login = async function login(username, password, userLevel, res) 
     try {
         cognitoUser.authenticateUser(authenticationDetails, {
             onSuccess: async function (result) {
-
                 cognitoUser.getUserAttributes((err, data) => {
                     if (err) { res.send(err); }
                     else if (data) {
