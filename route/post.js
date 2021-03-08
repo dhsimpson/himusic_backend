@@ -20,8 +20,7 @@ router.put('/update', async (req,res) => {
     await post.updatePost(req.body, res);
 })
 router.delete('/delete', async (req,res) => {
-    const { tableName, author, deleteIndex } = req.body;
-    await post.deletePost(tableName, author, deleteIndex, res);
+    await post.deletePost(req.query, res);
 })
 
 module.exports = router;

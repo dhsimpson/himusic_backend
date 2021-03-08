@@ -46,7 +46,6 @@ module.exports.getData = async(key, res) => {
 }
 
 module.exports.delete = async(key) => {
-  console.log(key+"를 삭제");
   s3.deleteObject({Bucket: 'himusic', Key: key},(err, data)=>{
     if(err){console.log(err);}
     if(data){console.log(data);}

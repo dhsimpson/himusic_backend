@@ -46,19 +46,19 @@ module.exports.updatePost = async function updatePost(_body,res) {
     }
 }
 // Delete
-module.exports.deletePost = async function deletePost(tableName, author, deleteIndex, res) {
-    // DB에서 startIndex 번 째 게시글 부터 queryAmount 개 만큼 가져오기
-    body = {
-        "body": {
-            "tableName": tableName,
-            "author": author, 
-            "deleteIndex": deleteIndex
-        }
-    }
+module.exports.deletePost = async function deletePost(query, res) {
+    const postQueryUrl = `${url}?tableName=${query.tableName}&rowkey=${query.rowkey}`;
     try{
-        await axios.delete(url, body)
-        .then( data => res.send(data.data) )
-        .catch(error => res.send(error));
+        console.log(postQueryUrl);
+        await axios.delete(postQueryUrl)
+        .then( async(data) => {
+            console.log(data);
+            if(query.content){await s3.delete(query.content);}
+            if(query.file){await s3.delete(query.file);}
+            if(query.video){await s3.delete(query.video);}
+            res.send("삭제 성공!");
+        })
+        .catch(error => {console.log(error); res.send(error);});
     }
     catch(err){
         res.send(err);
