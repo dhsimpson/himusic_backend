@@ -33,7 +33,12 @@ module.exports.updatePost = async function updatePost(_body,res) {
 
     try{
         await axios.put(url, body)
-        .then( data => {console.log(data); res.send(data.data)} )
+        .then( async data => {
+            if(_body.prevContent){await s3.delete(_body.prevContent);}
+            if(_body.prevFile){await s3.delete(_body.prevFile);}
+            if(_body.prevVideo){await s3.delete(_body.prevVideo);}
+            res.send(data.data)
+        } )
         .catch(error => {console.log(error); res.send(error)});
     }
     catch(err){
