@@ -1,5 +1,6 @@
 require('dotenv').config({path: './.env'});
 const axios = require("axios");
+const sha1 = require("sha1");
 
 var AmazonCognitoIdentity = require('amazon-cognito-identity-js-node');
 var CognitoUserPool = AmazonCognitoIdentity.CognitoUserPool;
@@ -44,6 +45,9 @@ module.exports.login = async function login(username, password, userLevel, res) 
                 cognitoUser.getUserAttributes((err, data) => {
                     if (err) { res.send(err); }
                     else if (data) {
+                        // console.log("로그인결과");
+                        // console.log(data)
+                        result.authValue = data[0].Name.Value;
                         result.nickname = data[2].Name.Value;
                         res.send(result);
                     }
@@ -147,6 +151,18 @@ module.exports.resendCode = async function resendCode(username, userLevel, res) 
     } catch (err) {
         res.send(err);
     }
+}
+
+module.exports.auth = async function auth(_body, res) {
+    const url = "https://pg1z261db3.execute-api.ap-northeast-2.amazonaws.com/himusic/users";
+    const postQueryUrl = `${url}?tableName=${_body.tableName}&rowkey=${_body.rowkey}`;
+
+    await axios.get(postQueryUrl)
+        .then( async(result) => {
+            if(result.data.Item.authValue === _body.authValue ){console.log("둘이 같음"); res.send({success:true});}
+            else{res.send({success:false});}
+        })
+        .catch(error => res.send(error));
 }
 
 // let userPool = normalUserPool;

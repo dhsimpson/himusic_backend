@@ -16,7 +16,7 @@ module.exports.postBoard = async function postBoard(_body, res) {
             "year": _body.year,
             "month": _body.month,
             "date": _body.date,
-            "refreshToken": _body.refreshToken
+            "authValue": _body.authValue
         }
     }
     try{

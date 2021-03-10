@@ -21,6 +21,10 @@ router.post('/resendCode', async (req, res) => {
     await cognito.resendCode(username, userLevel, res);
 })
 
+router.post('/auth', async(req,res)=>{
+    await cognito.auth(req.body, res);
+})
+
 //TODO : 토큰 만료 시 새로 토큰 가져오기
 //TODO : 회원 정보 변경하기
 // app.get('/getToken', async (req,res) => {
