@@ -5,21 +5,27 @@ const cognito = require('../function/cognito');
 
 // 회원 관련
 router.post('/login', async (req, res) => {
-    const { username, password, userLevel } = req.body;
-    await cognito.login(username, password, userLevel, res);
+    const { id, password } = req.body;
+    await cognito.login(id, password, res);
 });
 router.post('/signup', async (req, res) => {
-    const { username, password, email, nickname, userLevel } = req.body;
-    await cognito.singup(username, password, email,nickname, userLevel, res);
+    const { id, password, email, nickname, name, phone, userLevel } = req.body;
+    await cognito.singup(id, password, email, nickname, name, phone, userLevel, res);
 });
 router.post('/confirm', async (req, res) => {
-    const { username, confirmCode, userLevel } = req.body;
-    await cognito.confirm(username, confirmCode, userLevel, res);
+    const { id, token } = req.body;
+    await cognito.confirm(id, token, res);
 })
 router.post('/resendCode', async (req, res) => {
     const { username, userLevel } = req.body;
     await cognito.resendCode(username, userLevel, res);
 })
+
+router.post('/authAdmin', async (req, res) => {
+    const { id, password } = req.body;
+    await cognito.authAdmin(id, password, res);
+});
+
 
 router.post('/auth', async(req,res)=>{
     await cognito.auth(req.body, res);
