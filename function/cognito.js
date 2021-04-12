@@ -48,7 +48,7 @@ module.exports.login = async function login(id, password, res) {
 
 // TODO: 회원 중복을 막기 위한 코딩 - username 변경하거나 회원 탈퇴 시 dynamodb에서 처리하기
 // 회원 가입
-module.exports.singup = async function singup(id, password, email, nickname, name, phone, userLevel, res) {
+module.exports.singup = async function singup(id, password, email, nickname, name, phone, userLevel, branch, res) {
     const url = "https://pg1z261db3.execute-api.ap-northeast-2.amazonaws.com/himusic/users";
     const token = sha1(id+ password+ email+ nickname+ name+ phone+ userLevel+ Date.now());
     const body = {
@@ -61,7 +61,8 @@ module.exports.singup = async function singup(id, password, email, nickname, nam
             "name": name, 
             "phone": phone, 
             "token": token,
-            "userLevel": userLevel
+            "userLevel": userLevel,
+            "branch": branch
         }
     };
 

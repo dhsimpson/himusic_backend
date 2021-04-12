@@ -9,8 +9,8 @@ router.post('/login', async (req, res) => {
     await cognito.login(id, password, res);
 });
 router.post('/signup', async (req, res) => {
-    const { id, password, email, nickname, name, phone, userLevel } = req.body;
-    await cognito.singup(id, password, email, nickname, name, phone, userLevel, res);
+    const { id, password, email, nickname, name, phone, userLevel, branch } = req.body;
+    await cognito.singup(id, password, email, nickname, name, phone, userLevel, branch, res);
 });
 router.post('/confirm', async (req, res) => {
     const { id, token } = req.body;
