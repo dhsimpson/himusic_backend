@@ -36,7 +36,7 @@ module.exports.updatePost = async function updatePost(_body,res) {
         .then( async data => {
             if(_body.prevContent){await s3.delete(_body.prevContent);}
             if(_body.prevFile){await s3.delete(_body.prevFile);}
-            if(_body.prevVideo){await s3.delete(_body.prevVideo);}
+            // if(_body.prevVideo){await s3.delete(_body.prevVideo);}
             res.send(data.data)
         } )
         .catch(error => {console.log(error); res.send(error)});
@@ -49,13 +49,11 @@ module.exports.updatePost = async function updatePost(_body,res) {
 module.exports.deletePost = async function deletePost(query, res) {
     const postQueryUrl = `${url}?tableName=${query.tableName}&rowkey=${query.rowkey}`;
     try{
-        console.log(postQueryUrl);
         await axios.delete(postQueryUrl)
         .then( async(data) => {
-            console.log(data);
             if(query.content){await s3.delete(query.content);}
             if(query.file){await s3.delete(query.file);}
-            if(query.video){await s3.delete(query.video);}
+            // if(query.video){await s3.delete(query.video);}
             res.send("삭제 성공!");
         })
         .catch(error => {console.log(error); res.send(error);});

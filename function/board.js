@@ -13,6 +13,7 @@ module.exports.postBoard = async function postBoard(_body, res) {
             "author": _body.author, 
             "title": _body.title,
             "files": _body.files,
+            "video": _body.video,
             "year": _body.year,
             "month": _body.month,
             "date": _body.date,

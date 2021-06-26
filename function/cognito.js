@@ -68,7 +68,6 @@ module.exports.singup = async function singup(id, password, email, nickname, nam
 
     await axios.post(url, body)
         .then( async(result) => {
-            console.log(result)
             if (result.data.statusCode === 500) {
                 res.send({status: 500});
             }
@@ -92,7 +91,6 @@ module.exports.confirm = async function confirm(id, token, res) {
     }
     await axios.put(url, body)
     .then( async(result) => {
-        console.log(result)
         if (result.data.statusCode === 500) {
             res.send({status: 500});
         }
@@ -151,7 +149,6 @@ module.exports.resendCode = async function resendCode(username, userLevel, res) 
 module.exports.auth = async function auth(_body, res) {
     const url = "https://pg1z261db3.execute-api.ap-northeast-2.amazonaws.com/himusic/users";
     const postQueryUrl = `${url}?tableName=${_body.tableName}&rowkey=${_body.rowkey}`;
-
     await axios.get(postQueryUrl)
         .then( async(result) => {
             if(result.data.Item.authValue === _body.authValue ){console.log("둘이 같음"); res.send({success:true});}
